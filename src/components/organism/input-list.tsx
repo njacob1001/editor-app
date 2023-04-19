@@ -1,8 +1,6 @@
-import { Inter } from 'next/font/google'
+import startTransition from '@/utils/transition-api'
 import React, { KeyboardEvent, useEffect, useRef } from 'react'
-import { InputDropdown } from './input-dropdown'
-
-const inter = Inter({ subsets: ['latin'] })
+import { InputDropdown } from '../molecules/input-dropdown'
 
 interface InputField {
   name: string
@@ -63,7 +61,9 @@ export const DynamicInputList: React.FC<DynamicInputListProps> = ({
     index: number
   ) => {
     if (event.key === 'Enter') {
-      handleAddField(index)
+      startTransition(() => {
+        handleAddField(index)
+      })
     } else if (event.key === 'Backspace' && value[index].name === '') {
       buttonRefs.current[index]?.focus()
     }
@@ -106,7 +106,7 @@ export const DynamicInputList: React.FC<DynamicInputListProps> = ({
   }, [])
 
   return (
-    <div className="flex flex-col gap-2 mb-2">
+    <div className="flex flex-col gap-2 mb-2 Dynamic-list">
       {value.map((field, index) => (
         <div key={field.id} className="flex items-center gap-2">
           <InputDropdown
@@ -121,7 +121,11 @@ export const DynamicInputList: React.FC<DynamicInputListProps> = ({
           />
           <button
             ref={(el) => (buttonRefs.current[index] = el)}
-            onClick={() => handleDelete(index)}
+            onClick={() =>
+              startTransition(() => {
+                handleDelete(index)
+              })
+            }
             type="button"
             className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
             aria-label={`Delete field number ${index + 1}`}

@@ -1,8 +1,5 @@
 'use-client'
-import { Inter } from 'next/font/google'
 import { ChangeEvent, forwardRef, KeyboardEvent } from 'react'
-
-const inter = Inter({ subsets: ['latin'] })
 
 interface Props {
   value: string
@@ -27,7 +24,7 @@ export const InputDropdown = forwardRef<HTMLInputElement, Props>(
       <div className="grow">
         <label
           htmlFor="price"
-          className={`${inter.className} hidden block text-sm font-medium leading-6 text-gray-900`}
+          className="hidden block text-sm font-medium leading-6 text-gray-900"
         >
           Column
         </label>

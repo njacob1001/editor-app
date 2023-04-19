@@ -1,18 +1,24 @@
 'use client'
 
-import { ButtonCloseBorderless } from '@/app/components/atoms/buttons/button-close-borderless'
-import { DynamicInputList } from '@/app/components/molecules/input-list'
+import { ButtonCloseBorderless } from '@/components/atoms/buttons/button-close-borderless'
+import { DynamicInputList } from '@/components/organism/input-list'
+import startTransition from '@/utils/transition-api'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
 import { FC, KeyboardEvent, useRef, useState } from 'react'
 
-export const Dialog: FC = () => {
+interface DialogProps {
+  open: boolean
+  onClose: () => void
+}
+
+export const Dialog: FC<DialogProps> = ({ open, onClose }) => {
   const mutation = useMutation<any, any, any, any>({
     mutationFn: (schema) => {
       return axios.post('/api/v1/schema/table', schema)
     },
   })
-  const [dialogVisibility, setDialogVisibility] = useState(true)
+
   const [step, setStep] = useState(1)
   const [numOfFields, setNumOfFields] = useState([
     { name: '', id: 'randomid', valueType: 'text' },
@@ -27,7 +33,9 @@ export const Dialog: FC = () => {
   }
 
   const handleNext = () => {
-    setStep(2)
+    startTransition(() => {
+      setStep(2)
+    })
   }
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -39,18 +47,26 @@ export const Dialog: FC = () => {
   }
 
   return (
-    <main>
+    <>
+      {open && (
+        <div
+          className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+          role="button"
+          aria-label="Close modal"
+          onClick={onClose}
+        />
+      )}
       <dialog
         className="fixed inset-0 overflow-hidden z-10"
         role="dialog"
-        open={dialogVisibility}
+        open={open}
         aria-modal="true"
         aria-labelledby="modal-title"
         aria-describedby="modal-description"
       >
         <div className="flex justify-between">
           <h2 className="Form-title">Crear tabla</h2>
-          <ButtonCloseBorderless onClick={() => setDialogVisibility(false)} />
+          <ButtonCloseBorderless onClick={onClose} />
         </div>
         <div>
           <p id="modal-description" className="Form-description">
@@ -107,6 +123,6 @@ export const Dialog: FC = () => {
           </form>
         </div>
       </dialog>
-    </main>
+    </>
   )
 }
