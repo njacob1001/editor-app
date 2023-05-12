@@ -1,16 +1,8 @@
-import { Children, FC, ReactNode, cloneElement } from 'react'
+import { Children, FC, ReactElement, ReactNode, cloneElement } from 'react'
 import styles from './editor-layout.module.css'
 
-type ExlucedChildren =
-  | undefined
-  | null
-  | string
-  | number
-  | boolean
-  | Iterable<ReactNode>
-
 interface EditorLayoutProps {
-  children: Exclude<ReactNode, ExlucedChildren>
+  children: Extract<ReactNode, ReactElement>
 }
 
 export const EditorLayout: FC<EditorLayoutProps> = ({ children }) =>
