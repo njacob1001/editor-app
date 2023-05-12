@@ -1,4 +1,5 @@
 import Providers from '@/utils/provider'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { Inter } from 'next/font/google'
 
 import './globals.css'
@@ -22,7 +23,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable}`}>
       <Providers>
-        <body>{children}</body>
+        <body>
+          {children}
+          <ReactQueryDevtools initialIsOpen={false} />
+        </body>
       </Providers>
     </html>
   )

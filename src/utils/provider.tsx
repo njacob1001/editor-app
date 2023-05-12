@@ -1,7 +1,6 @@
 'use client'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import React from 'react'
 
 function Providers({ children }: React.PropsWithChildren) {
@@ -9,12 +8,7 @@ function Providers({ children }: React.PropsWithChildren) {
     new QueryClient({ defaultOptions: { queries: { staleTime: 5000 } } })
   )
 
-  return (
-    <QueryClientProvider client={client}>
-      {children}
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
-  )
+  return <QueryClientProvider client={client}>{children}</QueryClientProvider>
 }
 
 export default Providers
