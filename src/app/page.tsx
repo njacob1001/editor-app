@@ -1,7 +1,7 @@
 'use client'
 
 import { Title } from '@/components/atoms/text/title'
-import { Dialog } from '@/components/organism/dialog'
+import { SchemaDialog } from '@/components/organism/dialog'
 import {
   EditorLayout,
   HeaderArea,
@@ -105,7 +105,7 @@ export default function Home() {
             >
               Hello
             </button>
-            <Dialog
+            <SchemaDialog
               onClose={() => {
                 startTransition(() => {
                   setOpen(false)
