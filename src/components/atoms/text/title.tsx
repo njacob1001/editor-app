@@ -1,15 +1,7 @@
-import { Children, FC, ReactNode, cloneElement } from 'react'
-
-type ExlucedChildren =
-  | undefined
-  | null
-  | string
-  | number
-  | boolean
-  | Iterable<ReactNode>
+import { Children, FC, ReactElement, ReactNode, cloneElement } from 'react'
 
 interface TitleProps {
-  children: Exclude<ReactNode, ExlucedChildren>
+  children: Extract<ReactNode, ReactElement>
 }
 
 export const Title: FC<TitleProps> = ({ children }) =>
