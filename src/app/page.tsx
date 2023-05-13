@@ -105,14 +105,7 @@ export default function Home() {
             >
               Hello
             </button>
-            <SchemaDialog
-              onClose={() => {
-                startTransition(() => {
-                  setOpen(false)
-                })
-              }}
-              open={open}
-            />
+            <SchemaDialog />
           </main>
         </MainArea>
       </div>

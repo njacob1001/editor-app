@@ -16,15 +16,11 @@ import { Label } from '@/components/atoms/label'
 import startTransition from '@/utils/transition-api'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
+import { Plus } from 'lucide-react'
 import { FC, KeyboardEvent, useRef, useState } from 'react'
 import { DynamicInputList } from './input-list'
 
-interface DialogProps {
-  open: boolean
-  onClose: () => void
-}
-
-export const SchemaDialog: FC<DialogProps> = ({ open, onClose }) => {
+export const SchemaDialog: FC = () => {
   const mutation = useMutation<any, any, any, any>({
     mutationFn: (schema) => {
       return axios.post('/api/v1/schema/table', schema)
@@ -61,7 +57,10 @@ export const SchemaDialog: FC<DialogProps> = ({ open, onClose }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Create</Button>
+        <Button size="lg">
+          <Plus className="mr-2 h-4 w-4" />
+          Crear entidad
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

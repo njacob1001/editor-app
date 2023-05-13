@@ -11,6 +11,7 @@ import {
   Unplug,
   Users,
 } from 'lucide-react'
+import Link from 'next/link'
 
 export default function DashboardLayout({
   children, // will be a page or nested layout
@@ -18,7 +19,7 @@ export default function DashboardLayout({
   children: React.ReactNode
 }) {
   return (
-    <section className="bg-background grid lg:grid-cols-5 h-screen">
+    <section className="bg-background h-screen flex">
       <nav className="p-4 flex flex-col gap-4">
         <h1 className="txt-h3">OOO</h1>
 
@@ -45,10 +46,13 @@ export default function DashboardLayout({
 
         <div className="flex flex-col gap-1">
           <span className="txt-large">Componentes</span>
-          <Button size="sm" variant="menuItem">
-            <Database className="mr-2 h-4 w-4" />
-            Entidades
-          </Button>
+          <Link href="/overview/entities">
+            <Button size="sm" variant="menuItem">
+              <Database className="mr-2 h-4 w-4" />
+              Entidades
+            </Button>
+          </Link>
+
           <Button size="sm" variant="menuItem">
             <TextCursorInput className="mr-2 h-4 w-4" />
             Formularios
@@ -71,7 +75,9 @@ export default function DashboardLayout({
           </Button>
         </div>
       </nav>
-      <main className="col-span-3 lg:col-span-4 lg:border-l">{children}</main>
+      <main id="main" className="border-l grow">
+        {children}
+      </main>
     </section>
   )
 }
