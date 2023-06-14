@@ -97,7 +97,8 @@
       ]
     },
     "brandImage": {
-      "url": ""
+      "typeName": "TextInput",
+      "text": "OOO"
     }
   }
 }
