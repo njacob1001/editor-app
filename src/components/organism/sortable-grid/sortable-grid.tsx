@@ -129,7 +129,10 @@ export const Sortable: FC<Props> = ({
     }),
     useSensor(KeyboardSensor, {
       // Disable smooth scrolling in Cypress automated tests
-      scrollBehavior: 'Cypress' in window ? 'auto' : undefined,
+      scrollBehavior:
+        typeof window !== 'undefined' && 'Cypress' in window
+          ? 'auto'
+          : undefined,
       coordinateGetter,
     })
   )

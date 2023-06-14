@@ -1,0 +1,103 @@
+{
+  "content": {
+    "navigationLinks": {
+      "sections": [
+        {
+          "id": "section1",
+          "name": "Security",
+          "links": [
+            {
+              "id": "link1",
+              "name": "Lanzamientos",
+              "url": "#",
+              "icon": {
+                "token": "Rocket"
+              }
+            },
+            {
+              "id": "link2",
+              "name": "Users",
+              "url": "#",
+              "icon": {
+                "token": "Users"
+              }
+            },
+            {
+              "id": "link3",
+              "name": "Integrations",
+              "url": "#",
+              "icon": {
+                "token": "Unplug"
+              }
+            },
+            {
+              "id": "link4",
+              "name": "Permissions",
+              "url": "#",
+              "icon": {
+                "token": "ShieldCheck"
+              }
+            }
+          ]
+        },
+        {
+          "id": "section2",
+          "name": "Componentes",
+          "links": [
+            {
+              "id": "link5",
+              "name": "Entidades",
+              "url": "/overview/entities",
+              "icon": {
+                "token": "Database"
+              }
+            },
+            {
+              "id": "link6",
+              "name": "Formularios",
+              "url": "#",
+              "icon": {
+                "token": "TextCursorInput"
+              }
+            },
+            {
+              "id": "link7",
+              "name": "Relaciones",
+              "url": "#",
+              "icon": {
+                "token": "GitCompare"
+              }
+            },
+            {
+              "id": "link8",
+              "name": "Acciones",
+              "url": "#",
+              "icon": {
+                "token": "PlayCircle"
+              }
+            },
+            {
+              "id": "link9",
+              "name": "Pantallas",
+              "url": "#",
+              "icon": {
+                "token": "LayoutTemplate"
+              }
+            },
+            {
+              "id": "link10",
+              "name": "Lenguajes",
+              "url": "#",
+              "icon": {
+                "token": "Languages"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "brandImage": {
+      "url": ""
+    }
+  }
+}

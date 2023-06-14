@@ -1,8 +1,11 @@
 import { FolderLayout } from '@/components/templates/folder-layout/folder-layout'
+import { SearchBox } from './search'
 
 export default function Page() {
   return (
     <div className="w-full h-full flex flex-col gap-4">
+      <SearchBox />
+
       <FolderLayout />
       {/* <Database
         className="mr-2 h-24 w-24 text-muted-foreground"

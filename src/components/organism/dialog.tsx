@@ -15,7 +15,8 @@ import { Input } from '@/components/atoms/input'
 import { Label } from '@/components/atoms/label'
 import startTransition from '@/utils/transition-api'
 import { useMutation } from '@tanstack/react-query'
-import axios from 'axios'
+
+import { webClient } from '@/utils/http'
 import { Plus } from 'lucide-react'
 import { FC, KeyboardEvent, useRef, useState } from 'react'
 import { DynamicInputList } from './input-list'
@@ -23,7 +24,7 @@ import { DynamicInputList } from './input-list'
 export const SchemaDialog: FC = () => {
   const mutation = useMutation<any, any, any, any>({
     mutationFn: (schema) => {
-      return axios.post('/api/v1/schema/table', schema)
+      return webClient.mutate('/api/v1/schema/table', schema)
     },
   })
 
