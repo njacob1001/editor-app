@@ -34,10 +34,17 @@ import {
   useSortable,
 } from '@dnd-kit/sortable'
 import { GridContainer } from './components/grid'
-import { Item } from './components/item'
+import { Item, RenderItemArg } from './components/item'
 import { Wrapper } from './components/wrapper'
 
-export interface Props {
+export interface RenderItemValue<T = string> {
+  typeName: T
+  id: string
+  name: string
+  slug: string
+}
+
+export interface SortableGridProps {
   activationConstraint?: PointerActivationConstraint
   animateLayoutChanges?: AnimateLayoutChanges
   adjustScale?: boolean
@@ -46,11 +53,10 @@ export interface Props {
   dropAnimation?: DropAnimation | null
   getNewIndex?: NewIndexGetter
   handle?: boolean
-  itemCount?: number
-  items?: UniqueIdentifier[]
+  items: RenderItemValue[]
   measuring?: MeasuringConfiguration
   modifiers?: Modifiers
-  renderItem?: any
+  renderItem?: (args: RenderItemArg) => React.ReactElement
   removable?: boolean
   reorderItems?: typeof arrayMove
   strategy?: SortingStrategy
@@ -70,7 +76,7 @@ export interface Props {
     isDragging: boolean
     id: UniqueIdentifier
   }): React.CSSProperties
-  isDisabled?(id: UniqueIdentifier): boolean
+  isDisabled?(id: RenderItemValue): boolean
 }
 
 const dropAnimationConfig: DropAnimation = {
@@ -91,7 +97,7 @@ const screenReaderInstructions: ScreenReaderInstructions = {
   `,
 }
 
-export const Sortable: FC<Props> = ({
+export const Sortable: FC<SortableGridProps> = ({
   activationConstraint,
   animateLayoutChanges,
   adjustScale = false,
@@ -101,7 +107,6 @@ export const Sortable: FC<Props> = ({
   getItemStyles = () => ({}),
   getNewIndex,
   handle = false,
-  itemCount = 16,
   items: initialItems,
   isDisabled = () => false,
   measuring,
@@ -114,11 +119,7 @@ export const Sortable: FC<Props> = ({
   useDragOverlay = true,
   wrapperStyle = () => ({}),
 }) => {
-  const [items, setItems] = useState<UniqueIdentifier[]>(
-    () =>
-      initialItems ??
-      Array.from({ length: itemCount }).map((_, i) => `item-${i}`)
-  )
+  const [items, setItems] = useState(initialItems)
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null)
   const sensors = useSensors(
     useSensor(MouseSensor, {
@@ -134,15 +135,21 @@ export const Sortable: FC<Props> = ({
           ? 'auto'
           : undefined,
       coordinateGetter,
+      keyboardCodes: {
+        start: ['Space'],
+        cancel: ['Escape'],
+        end: ['Space'],
+      },
     })
   )
   const isFirstAnnouncement = useRef(true)
-  const getIndex = (id: UniqueIdentifier) => items.indexOf(id)
+  const getIndex = (id: UniqueIdentifier) =>
+    items.findIndex((item) => item.id === id)
   const getPosition = (id: UniqueIdentifier) => getIndex(id) + 1
   const activeIndex = activeId ? getIndex(activeId) : -1
   const handleRemove = removable
     ? (id: UniqueIdentifier) =>
-        setItems((items) => items.filter((item) => item !== id))
+        setItems((items) => items.filter((item) => item.id !== id))
     : undefined
   const announcements: Announcements = {
     onDragStart({ active: { id } }) {
@@ -225,8 +232,9 @@ export const Sortable: FC<Props> = ({
           <GridContainer>
             {items.map((value, index) => (
               <SortableItem
-                key={value}
-                id={value}
+                key={value.id}
+                id={value.id}
+                value={value}
                 handle={handle}
                 index={index}
                 style={getItemStyles}
@@ -257,10 +265,10 @@ export const Sortable: FC<Props> = ({
                     active: { id: activeId },
                     index: activeIndex,
                     isDragging: true,
-                    id: items[activeIndex],
+                    id: items[activeIndex]?.id,
                   })}
                   style={getItemStyles({
-                    id: items[activeIndex],
+                    id: items[activeIndex]?.id,
                     index: activeIndex,
                     isSorting: activeId !== null,
                     isDragging: true,
@@ -287,9 +295,11 @@ interface SortableItemProps {
   handle: boolean
   useDragOverlay?: boolean
   onRemove?(id: UniqueIdentifier): void
+
   style(values: any): React.CSSProperties
   renderItem?(args: any): React.ReactElement
-  wrapperStyle: Props['wrapperStyle']
+  wrapperStyle: SortableGridProps['wrapperStyle']
+  value: RenderItemValue
 }
 
 export function SortableItem({
@@ -304,6 +314,7 @@ export function SortableItem({
   renderItem,
   useDragOverlay,
   wrapperStyle,
+  value,
 }: SortableItemProps) {
   const {
     active,
@@ -326,7 +337,7 @@ export function SortableItem({
   return (
     <Item
       ref={setNodeRef}
-      value={id}
+      value={value}
       disabled={disabled}
       dragging={isDragging}
       sorting={isSorting}

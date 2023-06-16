@@ -19,7 +19,7 @@ export const SearchBox = () => {
           console.log('submit')
         }}
       >
-        <div className="relative m-4">
+        <div className="relative">
           <Input
             type="search"
             className="rounded-full py-2  px-4 pl-12 w-full text-lg"

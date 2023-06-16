@@ -2,11 +2,12 @@
 import type { DraggableSyntheticListeners } from '@dnd-kit/core'
 import type { Transform } from '@dnd-kit/utilities'
 import classNames from 'classnames'
-import { Folder } from 'lucide-react'
+import { Box } from 'lucide-react'
 import React, { useEffect } from 'react'
+import { RenderItemValue } from '../sortable-grid'
 import styles from './item.module.css'
 
-interface RenderItemArg {
+export interface RenderItemArg {
   dragOverlay: boolean
   dragging: boolean
   sorting: boolean
@@ -18,6 +19,7 @@ interface RenderItemArg {
   transform: Props['transform']
   transition: Props['transition']
   value: Props['value']
+  color?: string
 }
 
 export interface Props {
@@ -36,7 +38,7 @@ export interface Props {
   style?: React.CSSProperties
   transition?: string | null
   wrapperStyle?: React.CSSProperties
-  value: React.ReactNode
+  value: RenderItemValue
   onRemove?(): void
   renderItem?(args: RenderItemArg): React.ReactElement
 }
@@ -79,6 +81,13 @@ export const Item = React.memo(
         }
       }, [dragOverlay])
 
+      const buildInClasses = classNames(
+        styles.Wrapper,
+        fadeIn && styles.fadeIn,
+        sorting && styles.sorting,
+        dragOverlay && styles.dragOverlay
+      )
+
       return renderItem ? (
         renderItem({
           dragOverlay: Boolean(dragOverlay),
@@ -92,15 +101,11 @@ export const Item = React.memo(
           transform,
           transition,
           value,
+          color,
         })
       ) : (
         <li
-          className={classNames(
-            styles.Wrapper,
-            fadeIn && styles.fadeIn,
-            sorting && styles.sorting,
-            dragOverlay && styles.dragOverlay
-          )}
+          className={`${buildInClasses} border`}
           style={
             {
               ...wrapperStyle,
@@ -140,8 +145,13 @@ export const Item = React.memo(
             {...props}
             tabIndex={!handle ? 0 : undefined}
           >
-            <Folder className="w-16 h-16" strokeWidth={1} />
-            <span>{value}</span>
+            {/* <Folder
+              className="w-16 h-16 text-gray-400 fill-gray-400"
+              strokeWidth={1}
+            /> */}
+            <Box className="w-14 h-14 text-gray-400" strokeWidth={1} />
+
+            <span className="text-gray-900">{value.name}</span>
 
             <span className="flex absolute top-2 right-2">
               {/* <DropdownMenu>
