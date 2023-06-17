@@ -1,6 +1,10 @@
-import { FolderLayout } from '@/components/templates/folder-layout'
+import { ComponentModuleLayout } from '@/components/templates/component-module'
 import { WrapperComponent } from '@/components/templates/types'
 
 export default function Layout({ children }: WrapperComponent) {
-  return <FolderLayout>{children}</FolderLayout>
+  return (
+    <ComponentModuleLayout title={'Entidades'}>
+      {children}
+    </ComponentModuleLayout>
+  )
 }

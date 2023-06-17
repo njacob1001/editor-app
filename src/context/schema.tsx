@@ -6,7 +6,7 @@ import { FC, ReactNode, createContext } from 'react'
 
 const schemaService = new SchemaServie(webClient)
 
-const schemaContext = createContext<SchemaController>(schemaService)
+export const schemaContext = createContext<SchemaController>(schemaService)
 
 const { Provider } = schemaContext
 

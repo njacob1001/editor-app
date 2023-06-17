@@ -2,10 +2,12 @@
 import { NavigationController } from '@/services/input-ports'
 import { NavigationService } from '@/services/navigation'
 import { Router } from '@/services/output-port'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import { FC, ReactNode, createContext, useMemo } from 'react'
 
-const navigationContext = createContext<NavigationController>(null as any)
+export const navigationContext = createContext<NavigationController>(
+  null as any
+)
 
 const { Provider } = navigationContext
 
@@ -23,7 +25,7 @@ export const NavigationContextProvider: FC<{ children: ReactNode }> = ({
         _router.back()
       },
       getPath: () => {
-        return _router.pathname
+        return ''
       },
     }
     return new NavigationService(router)

@@ -4,9 +4,6 @@ export default async function Page() {
   const { content } = await getFiles()
   return (
     <div>
-      {/* <div>
-        <SchemaDialog />
-      </div> */}
       <SortableGrid files={content.root as any} />
     </div>
   )
@@ -29,7 +26,7 @@ async function getFiles() {
         {
           typeName: 'file',
           id: generateUniqueId(),
-          name: 'Sales Orders 2',
+          name: 'Sales Orders',
           slug: generateSlug('Sales Orders'),
         },
         {

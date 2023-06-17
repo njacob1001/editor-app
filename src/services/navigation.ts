@@ -12,10 +12,8 @@ export class NavigationService implements NavigationController {
     return this.navigationController.getPath()
   }
 
-  openFolder() {
-    const currentPath = this.getCurrentPath()
-
-    this.navigationController.push(`${currentPath}/new`)
+  openFolder(slug: string) {
+    this.navigationController.push(slug)
   }
 
   closeFolder() {
