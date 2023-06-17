@@ -142,15 +142,21 @@ export const Sortable: FC<SortableGridProps> = ({
       },
     })
   )
+
   const isFirstAnnouncement = useRef(true)
+
   const getIndex = (id: UniqueIdentifier) =>
     items.findIndex((item) => item.id === id)
+
   const getPosition = (id: UniqueIdentifier) => getIndex(id) + 1
+
   const activeIndex = activeId ? getIndex(activeId) : -1
+
   const handleRemove = removable
     ? (id: UniqueIdentifier) =>
         setItems((items) => items.filter((item) => item.id !== id))
     : undefined
+
   const announcements: Announcements = {
     onDragStart({ active: { id } }) {
       return `Picked up sortable item ${String(
