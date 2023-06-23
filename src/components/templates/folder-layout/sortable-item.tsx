@@ -5,6 +5,7 @@ import { navigationContext } from '@/context'
 import classNames from 'classnames'
 import { Box, Folder } from 'lucide-react'
 import { FC, useContext } from 'react'
+import { ConditionalDropable } from './conditional-dropable'
 
 // TODO: validate if memo is required
 export const SortableItem: FC<RenderItemArg> = ({
@@ -70,14 +71,19 @@ export const SortableItem: FC<RenderItemArg> = ({
         // {...props}
         tabIndex={0}
       >
-        {value.typeName === 'file' ? (
-          <Box className="w-11 h-11 text-gray-400" strokeWidth={1} />
-        ) : (
-          <Folder
-            className="w-12 h-12 text-gray-400 fill-gray-400"
-            strokeWidth={1}
-          />
-        )}
+        <ConditionalDropable
+          shouldRenderDropable={value.typeName === 'folder'}
+          id={`folder-${value.id}`}
+        >
+          {value.typeName === 'file' ? (
+            <Box className="w-11 h-11 text-gray-400" strokeWidth={1} />
+          ) : (
+            <Folder
+              className="w-12 h-12 text-gray-400 fill-gray-400"
+              strokeWidth={1}
+            />
+          )}
+        </ConditionalDropable>
 
         <span className="flex h-10 text-gray-900 break-words flex-wrap whitespace-break-spaces text-ellipsis text-center leading-tight">
           {value.name}

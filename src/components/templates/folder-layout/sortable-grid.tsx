@@ -7,7 +7,7 @@ import { SortableItem } from './sortable-item'
 export const SortableGrid: FC<{ files: RenderItemValue[] }> = ({ files }) => (
   <Sortable
     activationConstraint={{
-      distance: 8,
+      distance: 5,
     }}
     items={files}
     adjustScale
@@ -17,5 +17,6 @@ export const SortableGrid: FC<{ files: RenderItemValue[] }> = ({ files }) => (
       height: 200,
     })}
     renderItem={SortableItem as any}
+    // collisionDetection={closestCorners}
   />
 )
