@@ -5,15 +5,18 @@ import { WrapperComponent } from '../types'
 export interface DropableProps extends WrapperComponent {
   id?: string
   className?: string
+  data: Object
 }
 
 export const Dropable: FC<DropableProps> = ({
   children,
   id = '',
   className,
+  data,
 }) => {
   const { setNodeRef } = useDroppable({
     id,
+    data,
   })
 
   return (

@@ -72,7 +72,10 @@ export const SortableItem: FC<RenderItemArg> = ({
         tabIndex={0}
       >
         <ConditionalDropable
-          shouldRenderDropable={value.typeName === 'folder'}
+          data={value}
+          shouldRenderDropable={
+            value.typeName === 'folder' && !dragging && !dragOverlay
+          }
           id={`folder-${value.id}`}
         >
           {value.typeName === 'file' ? (

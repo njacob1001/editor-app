@@ -17,6 +17,6 @@ export const SortableGrid: FC<{ files: RenderItemValue[] }> = ({ files }) => (
       height: 200,
     })}
     renderItem={SortableItem as any}
-    // collisionDetection={closestCorners}
+    removable
   />
 )

@@ -219,10 +219,17 @@ export const Sortable: FC<SortableGridProps> = ({
 
         setActiveId(active.id)
       }}
-      onDragEnd={({ over }) => {
+      onDragEnd={({ over, collisions }) => {
         setActiveId(null)
+        const draggedId = items[activeIndex]?.id
+        if (`${over?.id}`.startsWith('folder') && draggedId) {
+          console.log(items[activeIndex])
+          handleRemove && handleRemove(draggedId)
+          return
+        }
 
         if (over) {
+          console.log(over, items[activeIndex])
           const overIndex = getIndex(over.id)
           if (activeIndex !== overIndex) {
             setItems((items) => reorderItems(items, activeIndex, overIndex))
@@ -338,6 +345,7 @@ export function SortableItem({
     animateLayoutChanges,
     disabled,
     getNewIndex,
+    data: value,
   })
 
   return (
