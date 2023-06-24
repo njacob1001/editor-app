@@ -1,3 +1,4 @@
+'use client'
 import { useDroppable } from '@dnd-kit/core'
 import { FC } from 'react'
 import { WrapperComponent } from '../types'
@@ -6,6 +7,7 @@ export interface DropableProps extends WrapperComponent {
   id?: string
   className?: string
   data: Object
+  DragOverRender: FC
 }
 
 export const Dropable: FC<DropableProps> = ({
@@ -13,15 +15,16 @@ export const Dropable: FC<DropableProps> = ({
   id = '',
   className,
   data,
+  DragOverRender,
 }) => {
-  const { setNodeRef } = useDroppable({
+  const { setNodeRef, isOver } = useDroppable({
     id,
     data,
   })
 
   return (
     <div ref={setNodeRef} className={className}>
-      {children}
+      {isOver ? <DragOverRender /> : children}
     </div>
   )
 }

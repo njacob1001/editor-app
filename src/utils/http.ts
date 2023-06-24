@@ -20,7 +20,7 @@ const http = <K>(method: string, path: string, data?: K) =>
 
 export const webClient: WebClient = {
   get: (path: string) => http('get', path),
-  mutate: (path: string, data: string) => http('post', path, data),
-  update: (path: string, data: string) => http('put', path, data),
-  remove: (path: string, data: string) => http('delete', path, data),
+  mutate: (path: string, data: Object) => http('post', path, data),
+  update: (path: string, data: Object) => http('put', path, data),
+  remove: (path: string) => http('delete', path),
 }

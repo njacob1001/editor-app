@@ -7,6 +7,15 @@ export class SchemaServie implements SchemaController {
   constructor(webClient: WebClient) {
     this.webClient = webClient
   }
+
+  public async deleteSchema(id: string) {
+    this.webClient.remove(`schema/${id}`)
+  }
+
+  public async moveToFolder(id: string, target: string) {
+    this.webClient.update('folding', { id, target })
+  }
+
   public async searchListing(schemaType: string, keyword: string) {
     return [
       {
@@ -17,6 +26,6 @@ export class SchemaServie implements SchemaController {
   }
 
   public async createSchema() {
-    this.webClient.mutate('/lol', 'asd')
+    this.webClient.mutate('lol', 'asd')
   }
 }

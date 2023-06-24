@@ -3,7 +3,7 @@ import { RenderItemArg } from '@/components/organism/sortable-grid/components/it
 import styles from '@/components/organism/sortable-grid/components/item.module.css'
 import { navigationContext } from '@/context'
 import classNames from 'classnames'
-import { Box, Folder } from 'lucide-react'
+import { Box, Folder, FolderOpen } from 'lucide-react'
 import { FC, useContext } from 'react'
 import { ConditionalDropable } from './conditional-dropable'
 
@@ -77,6 +77,9 @@ export const SortableItem: FC<RenderItemArg> = ({
             value.typeName === 'folder' && !dragging && !dragOverlay
           }
           id={`folder-${value.id}`}
+          DragOverRender={() => (
+            <FolderOpen className="w-12 h-12 text-gray-400" strokeWidth={2} />
+          )}
         >
           {value.typeName === 'file' ? (
             <Box className="w-11 h-11 text-gray-400" strokeWidth={1} />

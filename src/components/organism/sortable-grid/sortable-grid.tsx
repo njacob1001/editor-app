@@ -45,6 +45,8 @@ export interface RenderItemValue<T = string> {
 }
 
 export interface SortableGridProps {
+  handleRemove: (id: string) => Promise<void>
+  handleFolding: (id: string, target: string) => Promise<void>
   activationConstraint?: PointerActivationConstraint
   animateLayoutChanges?: AnimateLayoutChanges
   adjustScale?: boolean
@@ -98,6 +100,8 @@ const screenReaderInstructions: ScreenReaderInstructions = {
 }
 
 export const Sortable: FC<SortableGridProps> = ({
+  handleFolding,
+  handleRemove: handleRemoveAsync,
   activationConstraint,
   animateLayoutChanges,
   adjustScale = false,
@@ -152,10 +156,18 @@ export const Sortable: FC<SortableGridProps> = ({
 
   const activeIndex = activeId ? getIndex(activeId) : -1
 
-  const handleRemove = removable
-    ? (id: UniqueIdentifier) =>
-        setItems((items) => items.filter((item) => item.id !== id))
-    : undefined
+  const removeItemById = (id: string) =>
+    setItems((items) => items.filter((item) => item.id !== id))
+
+  const handleRemove = async (id: UniqueIdentifier) => {
+    await handleRemoveAsync(id as string)
+    removeItemById(id as string)
+  }
+
+  const onFolding = async (id: string, target: string) => {
+    removeItemById(id)
+    await handleFolding(id, target)
+  }
 
   const announcements: Announcements = {
     onDragStart({ active: { id } }) {
@@ -219,12 +231,14 @@ export const Sortable: FC<SortableGridProps> = ({
 
         setActiveId(active.id)
       }}
-      onDragEnd={({ over, collisions }) => {
+      onDragEnd={({ over }) => {
         setActiveId(null)
         const draggedId = items[activeIndex]?.id
-        if (`${over?.id}`.startsWith('folder') && draggedId) {
+        const targetId = over?.id
+        if (targetId && `${targetId}`.startsWith('folder') && draggedId) {
           console.log(items[activeIndex])
-          handleRemove && handleRemove(draggedId)
+
+          onFolding(draggedId, targetId as string)
           return
         }
 
